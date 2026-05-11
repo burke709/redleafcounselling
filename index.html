@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Redleaf Counselling — Vanessa Burke, RSW</title>
+<meta name="description" content="Compassionate, evidence-based counselling for individuals, couples, and families in Newfoundland and Labrador. Vanessa Burke, Registered Social Worker." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #faf6f1;
+    --ivory-deep: #f3ede4;
+    --ink: #2a2422;
+    --ink-soft: #5b524e;
+    --ink-mute: #8a807b;
+    --red: #b9322f;
+    --red-deep: #8a1f1d;
+    --red-tint: rgba(185, 50, 47, 0.08);
+    --line: rgba(42, 36, 34, 0.12);
+    --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+    --sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--ivory);
+    line-height: 1.6;
+    font-weight: 300;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* subtle paper texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(185, 50, 47, 0.025) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(185, 50, 47, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 20px 0;
+    background: rgba(250, 246, 241, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--red-deep);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .nav-brand img { height: 34px; width: auto; }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+  }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover { color: var(--red); }
+  .nav-cta {
+    background: var(--red);
+    color: var(--ivory) !important;
+    padding: 10px 22px;
+    border-radius: 999px;
+    transition: background 0.2s ease, transform 0.2s ease !important;
+  }
+  .nav-cta:hover { background: var(--red-deep); transform: translateY(-1px); }
+
+  @media (max-width: 720px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+
+  /* HERO */
+  .hero {
+    padding: 180px 0 120px;
+    position: relative;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .hero { padding: 140px 0 80px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 56px; text-align: center; }
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 500;
+    margin-bottom: 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--red-tint);
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.1s forwards;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(44px, 6vw, 76px);
+    line-height: 1.05;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--red);
+    font-weight: 400;
+  }
+
+  .hero-lede {
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin-bottom: 40px;
+    line-height: 1.65;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.35s forwards;
+  }
+  @media (max-width: 880px) {
+    .hero-lede { margin-left: auto; margin-right: auto; }
+  }
+
+  .hero-cta-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.5s forwards;
+  }
+  @media (max-width: 880px) {
+    .hero-cta-row { justify-content: center; }
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--red);
+    color: var(--ivory);
+    padding: 16px 32px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 4px 20px rgba(185, 50, 47, 0.18);
+  }
+  .btn-primary:hover {
+    background: var(--red-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(185, 50, 47, 0.28);
+  }
+  .btn-primary svg { transition: transform 0.25s ease; }
+  .btn-primary:hover svg { transform: translateX(4px); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 15px;
+    padding: 16px 8px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-ghost:hover {
+    color: var(--red);
+    border-bottom-color: var(--red);
+  }
+
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 420px;
+    margin-left: auto;
+    opacity: 0;
+    animation: fadeIn 1.2s ease 0.4s forwards;
+  }
+  @media (max-width: 880px) {
+    .hero-visual { margin: 0 auto; max-width: 280px; }
+  }
+
+  .hero-visual::before {
+    content: '';
+    position: absolute;
+    inset: 10%;
+    background: radial-gradient(circle, var(--red-tint) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .hero-logo {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 1;
+    animation: gentleFloat 8s ease-in-out infinite;
+  }
+
+  @keyframes gentleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  /* SECTION DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    gap: 16px;
+    color: var(--red);
+    opacity: 0.6;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    height: 1px;
+    width: 60px;
+    background: var(--red);
+    opacity: 0.35;
+  }
+  .divider-leaf {
+    width: 8px;
+    height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  /* SECTION HEADER */
+  .section { padding: 110px 0; position: relative; }
+  @media (max-width: 720px) { .section { padding: 80px 0; } }
+
+  .section-eyebrow {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(34px, 4.5vw, 52px);
+    line-height: 1.15;
+    text-align: center;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .section-title em { font-style: italic; color: var(--red); }
+  .section-intro {
+    text-align: center;
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin: 0 auto 64px;
+    font-size: 18px;
+  }
+
+  /* APPROACH SECTION */
+  .approach { background: var(--ivory-deep); }
+
+  .approach-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    margin-top: 24px;
+  }
+  @media (max-width: 880px) {
+    .approach-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .approach-card {
+    text-align: center;
+    padding: 0 8px;
+  }
+  .approach-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 24px;
+    color: var(--red);
+    opacity: 0.85;
+  }
+  .approach-card h3 {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .approach-card p {
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ABOUT SECTION */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 880px) {
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  .about-card {
+    background: var(--ivory-deep);
+    border-radius: 4px;
+    padding: 48px 40px;
+    border-top: 3px solid var(--red);
+    position: sticky;
+    top: 100px;
+  }
+  @media (max-width: 880px) {
+    .about-card { position: static; }
+  }
+
+  .about-name {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.15;
+  }
+  .about-title {
+    color: var(--red);
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .about-creds {
+    font-size: 14px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  .about-creds-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+  }
+
+  .about-content h3 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    margin: 32px 0 14px;
+    color: var(--ink);
+  }
+  .about-content h3:first-child { margin-top: 0; }
+  .about-content p {
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+    line-height: 1.75;
+  }
+
+  .ages-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 18px 0 8px;
+  }
+  .ages-pill {
+    background: var(--ivory-deep);
+    color: var(--ink-soft);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--line);
+  }
+
+  /* CREDENTIALS SECTION */
+  .credentials { background: var(--ivory-deep); }
+
+  .creds-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px 64px;
+  }
+  @media (max-width: 720px) {
+    .creds-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .creds-block h4 {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 18px;
+    color: var(--red-deep);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .creds-list {
+    list-style: none;
+  }
+  .creds-list li {
+    padding: 10px 0;
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.5;
+    padding-left: 20px;
+    position: relative;
+  }
+  .creds-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+    opacity: 0.5;
+  }
+  .creds-list li strong {
+    color: var(--ink);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* CONTACT */
+  .contact {
+    text-align: center;
+    padding: 130px 0;
+    position: relative;
+  }
+
+  .contact-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 34px);
+    color: var(--red);
+    text-decoration: none;
+    margin-top: 32px;
+    padding: 16px 32px;
+    border: 1px solid var(--red-tint);
+    border-radius: 999px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+  .contact-email:hover {
+    background: var(--red);
+    color: var(--ivory);
+    border-color: var(--red);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(185, 50, 47, 0.2);
+  }
+
+  .contact-note {
+    margin-top: 40px;
+    font-size: 14px;
+    color: var(--ink-mute);
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: var(--ivory-deep);
+    padding: 56px 0 32px;
+    text-align: center;
+  }
+  .footer-brand {
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--ivory);
+    margin-bottom: 8px;
+  }
+  .footer-tag {
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(243, 237, 228, 0.55);
+    margin-bottom: 32px;
+  }
+  .footer-meta {
+    font-size: 13px;
+    color: rgba(243, 237, 228, 0.5);
+    border-top: 1px solid rgba(243, 237, 228, 0.1);
+    padding-top: 24px;
+    margin-top: 24px;
+  }
+  .footer-meta a { color: rgba(243, 237, 228, 0.7); text-decoration: none; }
+  .footer-meta a:hover { color: var(--ivory); }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="nav-brand">
+      <img src="logo.png" alt="Redleaf Counselling" onerror="this.style.display='none'">
+      <span>Redleaf</span>
+    </a>
+    <div class="nav-links">
+      <a href="#approach">Approach</a>
+      <a href="#about">About</a>
+      <a href="#credentials">Credentials</a>
+      <a href="#contact" class="nav-cta">Book a session</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <span class="hero-eyebrow">Registered Social Worker · Newfoundland & Labrador</span>
+      <h1>A space to <em>heal,</em><br>grow, and feel<br>understood.</h1>
+      <p class="hero-lede">
+        Compassionate, evidence-based counselling for individuals, couples, and families. Whether you're navigating anxiety, trauma, grief, addiction, or relationship struggles, you don't have to walk through it alone.
+      </p>
+      <div class="hero-cta-row">
+        <a href="#contact" class="btn-primary">
+          Reach out
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#about" class="btn-ghost">Meet Vanessa</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="logo.png" alt="Redleaf Counselling logo" class="hero-logo" onerror="this.parentElement.style.display='none'">
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="section approach" id="approach">
+  <div class="container">
+    <div class="section-eyebrow">The Approach</div>
+    <h2 class="section-title">Care that meets you <em>where you are</em></h2>
+    <p class="section-intro">
+      A non-judgmental, supportive environment where you feel safe, understood, and empowered to create meaningful change.
+    </p>
+
+    <div class="approach-grid">
+      <div class="approach-card reveal">
+        <svg class="approach-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 6c-6 6-12 10-12 18a12 12 0 0024 0c0-8-6-12-12-18z"/>
+          <path d="M24 18v18"/>
+          <path d="M18 28l6-6 6 6"/>
+        </svg>
+        <h3>Holistic & Strengths-Based</h3>
+        <p>Identify your strengths, build new skills, and develop self-care practices that support lasting well-being.</p>
+      </div>
+      <div class="approach-card reveal">
+        <svg class="approach-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="24" r="14"/>
+          <path d="M24 14v10l6 4"/>
+          <path d="M10 24h2M36 24h2M24 10v2M24 36v2"/>
+        </svg>
+        <h3>Evidence-Based Practice</h3>
+        <p>Trained in EMDR, CBT, DBT, Gottman Method, and Written Exposure Therapy — tailored to what works for you.</p>
+      </div>
+      <div class="approach-card reveal">
+        <svg class="approach-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 38c-8-6-14-12-14-20a8 8 0 0114-5 8 8 0 0114 5c0 8-6 14-14 20z"/>
+        </svg>
+        <h3>Compassionate & Confidential</h3>
+        <p>A safe, open space free of judgment, where healing happens at your pace and on your terms.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-eyebrow">About</div>
+    <h2 class="section-title">Meet <em>Vanessa Burke</em></h2>
+    <div style="height: 64px;"></div>
+
+    <div class="about-grid">
+      <aside class="about-card reveal">
+        <div class="about-name">Vanessa Burke</div>
+        <div class="about-title">Registered Social Worker</div>
+        <p style="color: var(--ink-soft); font-size: 15px; margin-bottom: 8px;">B.A., B.S.W., M.S.W., R.S.W.</p>
+        <p style="color: var(--ink-soft); font-size: 15px; margin-bottom: 24px;">13+ years of practice</p>
+
+        <div class="about-creds-label">Now serving</div>
+        <div class="ages-row">
+          <span class="ages-pill">Teens 13–17</span>
+          <span class="ages-pill">Young Adults 18–24</span>
+          <span class="ages-pill">Adults</span>
+          <span class="ages-pill">Seniors</span>
+        </div>
+
+        <div class="about-creds">
+          <div class="about-creds-label" style="margin-top: 8px;">Modalities</div>
+          Individual · Couple · Family
+        </div>
+      </aside>
+
+      <div class="about-content reveal">
+        <h3>Experience you can lean on</h3>
+        <p>Vanessa has over 13 years of experience working with individuals, couples, and families, bringing deep expertise in addiction, anxiety, trauma, and grief and loss.</p>
+        <p>She is trained in <strong style="color: var(--ink);">EMDR (Eye Movement Desensitization and Reprocessing)</strong>, a proven-effective treatment for trauma, anxiety, depression, and anger. Her practice is also informed by Cognitive Behavioural Therapy (CBT) and Dialectical Behaviour Therapy (DBT), giving her a diverse toolkit of evidence-based interventions tailored to each client.</p>
+
+        <h3>A holistic, supportive partnership</h3>
+        <p>Vanessa takes a holistic approach, helping clients identify their strengths, build new skills, and develop effective self-care practices. She creates a non-judgmental, open, and supportive environment where clients feel safe, understood, and empowered.</p>
+        <p>Her goal is simple: to foster positive change and provide compassionate care that promotes healing and well-being.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section class="section credentials" id="credentials">
+  <div class="container">
+    <div class="section-eyebrow">Credentials</div>
+    <h2 class="section-title">Training & <em>Registration</em></h2>
+    <p class="section-intro">A foundation of rigorous education and continuing professional development.</p>
+
+    <div class="creds-grid">
+      <div class="creds-block reveal">
+        <h4>Education</h4>
+        <ul class="creds-list">
+          <li>
+            <strong>Master of Social Work</strong>
+            Memorial University of Newfoundland, St. John's, NL · Fellowship of the School of Graduate Studies for outstanding academic achievement
+          </li>
+          <li>
+            <strong>Bachelor of Social Work</strong>
+            University of South Florida, Tampa, Florida
+          </li>
+          <li>
+            <strong>Bachelor of Arts</strong>
+            Memorial University of Newfoundland, St. John's, NL
+          </li>
+        </ul>
+      </div>
+
+      <div class="creds-block reveal">
+        <h4>Certificates & Training</h4>
+        <ul class="creds-list">
+          <li>Gottman Method Couples Therapy, Level 1</li>
+          <li>Eye Movement Desensitization and Reprocessing Therapy (EMDR)</li>
+          <li>Dialectical Behaviour Therapy (DBT)</li>
+          <li>Cognitive Behavioural Therapy (CBT)</li>
+          <li>Written Exposure Therapy (WET) for PTSD</li>
+          <li>Couples Training Therapy (Relational Life Therapy)</li>
+          <li>Applied Suicide Intervention Skills Training (ASIST)</li>
+          <li>Non-Violent Crisis Intervention Training</li>
+          <li>Memorial University, School of Social Work Field Instructor</li>
+        </ul>
+      </div>
+
+      <div class="creds-block reveal">
+        <h4>Registration</h4>
+        <ul class="creds-list">
+          <li>
+            <strong>Registered Social Worker</strong>
+            Newfoundland and Labrador College of Social Workers · #3191
+          </li>
+        </ul>
+      </div>
+
+      <div class="creds-block reveal">
+        <h4>Professional Membership</h4>
+        <ul class="creds-list">
+          <li>Newfoundland and Labrador College of Social Workers (NLCSW)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="container contact-inner">
+    <div class="section-eyebrow">Get in Touch</div>
+    <h2 class="section-title">Ready to take the <em>first step?</em></h2>
+    <p class="section-intro" style="margin-bottom: 8px;">
+      Reaching out is often the hardest part. When you're ready, send a note. Vanessa will respond personally to discuss your needs and next steps.
+    </p>
+
+    <a href="mailto:hello@redleafcounselling.ca" class="contact-email">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="2"/>
+        <path d="m2 7 10 7 10-7"/>
+      </svg>
+      info@redleafconsulting.ca
+    </a>
+
+    <p class="contact-note">
+      If you are in crisis or need immediate support, please call 911, the 988 Suicide Crisis Helpline, or visit your nearest emergency department.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-brand">Redleaf Counselling</div>
+    <div class="footer-tag">Newfoundland & Labrador</div>
+    <div class="footer-meta">
+      © <span id="year"></span> Redleaf Counselling · Vanessa Burke, RSW · NLCSW #3191
+    </div>
+  </div>
+</footer>
+
+<script>
+  // year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+</script>
+
+</body>
+</html>
